@@ -67,17 +67,20 @@ class ScheduleTests(unittest.TestCase):
         return ScheduleAgent(9134, transport=FakeTransport(rows), today=date(2026, 11, 22))
 
     def test_term_boundaries(self):
-        for day, expected in [(date(2027, 1, 31), ("2026", "1")),
+        for day, expected in [(date(2027, 1, 31), ("2026", "2")),
                               (date(2027, 2, 1), ("2026", "2")),
                               (date(2027, 7, 1), ("2026", "3")),
+                              (date(2026, 8, 31), ("2026", "1")),
+                              (date(2027, 5, 24), ("2026", "3")),
                               (date(2027, 9, 1), ("2027", "1"))]:
             self.assertEqual(current_term(day), expected)
 
-    def test_missing_configuration_does_not_call_api(self):
+    def test_no_programme_searches_university_by_code(self):
         transport = FakeTransport()
         result = ScheduleAgent(transport=transport).search(["COMP5926"])
-        self.assertEqual(result["status"], "clarification_required")
-        self.assertEqual(transport.calls, [])
+        self.assertEqual(result["status"], "candidates_found")
+        self.assertNotIn("programmeId", transport.calls[0][1])
+        self.assertEqual(transport.calls[0][1]["subjCode"], "COMP5926")
 
     def test_course_name_and_payload(self):
         agent = self.agent()
@@ -86,7 +89,8 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(agent.transport.calls[0], (SUBJECTS_URL, {"acadYearSem": "20261", "programmeId": 9134}))
         self.assertEqual(agent.transport.calls[1], (ARRANGEMENTS_URL, {"queries": [{
             "acadYear": "2026", "acadSemester": "1", "subjectId": 41243}]}))
-        self.assertTrue(result["warnings"])
+        self.assertFalse(result["warnings"])
+        self.assertEqual(result["query_scope"]["week"], 12)
         self.assertTrue(all(r["evidence_id"].startswith("schedule:") for r in result["results"]))
 
     def test_all_sessions_and_components_retained_groups_deduplicated(self):
@@ -110,6 +114,11 @@ class ScheduleTests(unittest.TestCase):
         del row["acadWeekFm"]
         result = self.agent([row]).search(["COMP5926"], week=3)
         self.assertTrue(result["results"][0]["warnings"])
+
+    def test_official_august_start_calculates_week_13(self):
+        result = self.agent().search(["COMP5926"], semester_start="2026-08-31",
+                                     on_date="2026-11-23", acad_year="2026", semester="1")
+        self.assertEqual(result["query_scope"]["week"], 13)
 
     def test_wrong_term_week_start_requests_clarification(self):
         self.assertEqual(self.agent().search(["COMP5926"], semester_start="2027-02-01")["status"],
@@ -190,10 +199,10 @@ class SupervisorTests(unittest.TestCase):
         self.assertNotIn("answer", result)
         self.assertEqual(len(result["attempts"]), 2)
 
-    def test_missing_programme_requests_clarification(self):
+    def test_missing_programme_allows_university_query(self):
         result = self.run_agent(schedule=ScheduleAgent(transport=FakeTransport()))
-        self.assertEqual(result["status"], "clarification_required")
-        self.assertTrue(result["missing"])
+        self.assertEqual(result["status"], "passed")
+        self.assertTrue(result["approved"])
 
     def test_unmatched_course_cannot_be_approved_by_model(self):
         result = self.run_agent(branches=["schedule"], course_queries=["COMP5926", "COMP9999"])
@@ -225,12 +234,11 @@ class ProgrammeTests(unittest.TestCase):
                  "programme_code": "TEST01", "programme_id": 111}]
         return ProgrammeResolver(records=rows + (extra or []))
 
-    def test_missing_programme_asks_for_name_not_internal_id(self):
+    def test_missing_programme_uses_global_subject_search(self):
         transport = FakeTransport()
         result = ScheduleAgent(transport=transport).search(["COMP5926"])
-        self.assertIn("哪个项目", result["missing"][0])
-        self.assertNotIn("programmeId", result["missing"][0])
-        self.assertEqual(transport.calls, [])
+        self.assertEqual(result["status"], "candidates_found")
+        self.assertNotIn("programmeId", transport.calls[0][1])
 
     def test_name_alias_and_programme_code_resolve(self):
         for name in ("MSc Test Computing", "测试计算硕士", "test comp", "TEST01"):

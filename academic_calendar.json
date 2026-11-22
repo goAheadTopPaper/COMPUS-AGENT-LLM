@@ -1,0 +1,18 @@
+{
+  "source_url": "https://www.polyu.edu.hk/ar/students-in-taught-programmes/academic-calendar/",
+  "verified_on": "2026-11-23",
+  "academic_years": [
+    {
+      "acad_year": "2026",
+      "start": "2026-08-31",
+      "end": "2027-08-29",
+      "terms": [
+        {"semester": "1", "start": "2026-08-31", "teaching_end": "2026-11-28", "breaks": [], "excluded_weeks": []},
+        {"semester": "2", "start": "2027-01-11", "teaching_end": "2027-04-17",
+         "breaks": [["2027-02-06", "2027-02-14"]],
+         "excluded_weeks": ["2027-02-08"]},
+        {"semester": "3", "start": "2027-05-24", "teaching_end": "2027-07-10", "breaks": [], "excluded_weeks": []}
+      ]
+    }
+  ]
+}

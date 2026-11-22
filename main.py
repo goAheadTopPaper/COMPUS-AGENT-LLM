@@ -2,7 +2,7 @@
 import argparse
 import json
 import os
-from pathlib import Path
+from config import read_env
 
 from live_test import load_model
 from policy_agent import PolicyAgent
@@ -33,13 +33,7 @@ def main():
     parser.add_argument("--no-retry", action="store_true")
     args = parser.parse_args()
     # Same .env file as live_test.py; environment variables take precedence.
-    settings = {}
-    env_path = Path(__file__).with_name(".env")
-    if env_path.is_file():
-        for line in env_path.read_text(encoding="utf-8").splitlines():
-            name, sep, value = line.partition("=")
-            if sep and not name.lstrip().startswith("#"):
-                settings[name.strip()] = value.strip()
+    settings = read_env()
     def setting(name, supplied):
         return supplied if supplied is not None else settings.get(name) or None
     model = load_model()
@@ -56,6 +50,7 @@ def main():
         def verify_claims(self, payload):
             return self.agent.verify_claims(payload)
     schedule = ScheduleAgent(programme_id=args.programme_id,
+                             model=model,
                              programme_resolver=ProgrammeResolver(setting("PROGRAMME_MAP_PATH", args.programme_map)),
                              semester_start=setting("SEMESTER_START", args.semester_start),
                              queries_as_list=not args.queries_as_object)

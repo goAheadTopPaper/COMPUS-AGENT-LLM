@@ -1,7 +1,6 @@
 """Adapter for the read-only Part 1 handoff; no index rebuild or model download."""
 from functools import partial
 from pathlib import Path
-import sys
 
 
 class PolicyAgent:
@@ -9,10 +8,8 @@ class PolicyAgent:
         root = Path(handoff_path or Path(__file__).resolve().parent.parent / "part1_handoff").resolve()
         if not (root / "policy_rag" / "retrieve.py").is_file():
             raise FileNotFoundError(f"Part 1 handoff not found: {root}")
-        existing = sys.modules.get("policy_rag.retrieve")
-        if existing and Path(existing.ROOT).resolve() != root:
-            raise ValueError("A different Part 1 handoff is already loaded in this process")
-        sys.path.insert(0, str(root))
+        # Use the bundled implementation with explicit data/source paths. Changing
+        # sys.path cannot safely swap cached policy_rag modules in Streamlit.
         from policy_rag.retrieve import PolicyRetriever
         from policy_rag.verify import verify_claims
         self.retriever = PolicyRetriever(root / "data" / "policy_index.sqlite")

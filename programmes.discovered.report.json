@@ -1,0 +1,239 @@
+{
+  "source_url": "https://estudent.polyu.edu.hk/proxy/e-public/srs-api/student-portal/public/programmes/search",
+  "dropdown_url": "https://estudent.polyu.edu.hk/proxy/e-public/srs-api/student-portal/public/system/dropdown-options/public",
+  "retrieved_at": "2026-11-22T18:29:18.161363+00:00",
+  "year_sem": "20261",
+  "department_count": 44,
+  "counts": [
+    {
+      "label": "[AIH] DIVISION OF ARTIFICIAL INTELLIGENCE AND THE HUMANITIES",
+      "value": "162",
+      "count": 16
+    },
+    {
+      "label": "[AF] SCHOOL OF ACCOUNTING AND FINANCE",
+      "value": "35",
+      "count": 161
+    },
+    {
+      "label": "[AAE] DEPARTMENT OF AERONAUTICAL AND AVIATION ENGINEERING",
+      "value": "109",
+      "count": 57
+    },
+    {
+      "label": "[ABCT] DEPARTMENT OF APPLIED BIOLOGY AND CHEMICAL TECHNOLOGY",
+      "value": "23",
+      "count": 66
+    },
+    {
+      "label": "[AMA] DEPARTMENT OF APPLIED MATHEMATICS",
+      "value": "24",
+      "count": 71
+    },
+    {
+      "label": "[ARCH] DEPARTMENT OF ARCHITECTURE",
+      "value": "161",
+      "count": 15
+    },
+    {
+      "label": "[BEST] DEPARTMENT OF BIOMEDICAL ENGINEERING AND SPORTS TECHNOLOGY",
+      "value": "61",
+      "count": 50
+    },
+    {
+      "label": "[BEEE] DEPARTMENT OF BUILDING ENVIRONMENT AND ENERGY ENGINEERING",
+      "value": "20",
+      "count": 60
+    },
+    {
+      "label": "[CHC] DEPARTMENT OF CHINESE HISTORY AND CULTURE",
+      "value": "44",
+      "count": 22
+    },
+    {
+      "label": "[CMI] DEPARTMENT OF CONSTRUCTION MANAGEMENT AND INTELLIGENCE",
+      "value": "53",
+      "count": 98
+    },
+    {
+      "label": "[APSS] DEPARTMENT OF APPLIED SOCIAL SCIENCES",
+      "value": "46",
+      "count": 182
+    },
+    {
+      "label": "[CEE] DEPARTMENT OF CIVIL AND ENVIRONMENTAL ENGINEERING",
+      "value": "41",
+      "count": 76
+    },
+    {
+      "label": "[CUS] COLLEGE OF UNDERGRADUATE STUDIES",
+      "value": "81",
+      "count": 7
+    },
+    {
+      "label": "[COMP] DEPARTMENT OF COMPUTING",
+      "value": "48",
+      "count": 156
+    },
+    {
+      "label": "[CHEM] DEPARTMENT OF CHEMISTRY",
+      "value": "163",
+      "count": 20
+    },
+    {
+      "label": "[EEE] DEPARTMENT OF ELECTRICAL AND ELECTRONIC ENGINEERING",
+      "value": "152",
+      "count": 82
+    },
+    {
+      "label": "[ENGL] DEPARTMENT OF ENGLISH AND COMMUNICATION",
+      "value": "18",
+      "count": 101
+    },
+    {
+      "label": "[DSAI] DEPARTMENT OF DATA SCIENCE AND ARTIFICIAL INTELLIGENCE",
+      "value": "154",
+      "count": 37
+    },
+    {
+      "label": "[FCMS] FACULTY OF COMPUTER AND MATHEMATICAL SCIENCES",
+      "value": "155",
+      "count": 42
+    },
+    {
+      "label": "[FH] FACULTY OF HUMANITIES",
+      "value": "9",
+      "count": 28
+    },
+    {
+      "label": "[FCE] FACULTY OF CONSTRUCTION AND ENVIRONMENT",
+      "value": "2",
+      "count": 130
+    },
+    {
+      "label": "[FS] FACULTY OF SCIENCE",
+      "value": "14",
+      "count": 11
+    },
+    {
+      "label": "[FHSS] FACULTY OF HEALTH AND SOCIAL SCIENCES",
+      "value": "12",
+      "count": 68
+    },
+    {
+      "label": "[GS] GRADUATE SCHOOL",
+      "value": "3",
+      "count": 2
+    },
+    {
+      "label": "[FSN] DEPARTMENT OF FOOD SCIENCE AND NUTRITION",
+      "value": "151",
+      "count": 36
+    },
+    {
+      "label": "[IC] INDUSTRIAL CENTRE",
+      "value": "33",
+      "count": 3
+    },
+    {
+      "label": "[FB] FACULTY OF BUSINESS",
+      "value": "1",
+      "count": 249
+    },
+    {
+      "label": "[HTI] DEPARTMENT OF HEALTH TECHNOLOGY AND INFORMATICS",
+      "value": "27",
+      "count": 74
+    },
+    {
+      "label": "[LS] DEPARTMENT OF LIFE SCIENCES",
+      "value": "164",
+      "count": 23
+    },
+    {
+      "label": "[LMS] DEPARTMENT OF LOGISTICS AND MARITIME STUDIES",
+      "value": "32",
+      "count": 115
+    },
+    {
+      "label": "[FENG] FACULTY OF ENGINEERING",
+      "value": "15",
+      "count": 308
+    },
+    {
+      "label": "[LST] DEPARTMENT OF LANGUAGE SCIENCE AND TECHNOLOGY",
+      "value": "21",
+      "count": 145
+    },
+    {
+      "label": "[ME] DEPARTMENT OF MECHANICAL ENGINEERING",
+      "value": "37",
+      "count": 76
+    },
+    {
+      "label": "[ISE] DEPARTMENT OF INDUSTRIAL AND SYSTEMS ENGINEERING",
+      "value": "39",
+      "count": 165
+    },
+    {
+      "label": "[LSGS] DEPARTMENT OF LAND SURVEYING AND GEOSPATIAL SCIENCE",
+      "value": "28",
+      "count": 85
+    },
+    {
+      "label": "[RS] DEPARTMENT OF REHABILITATION SCIENCES",
+      "value": "25",
+      "count": 68
+    },
+    {
+      "label": "[PM] DEPARTMENT OF PHYSICS AND MATERIALS",
+      "value": "29",
+      "count": 43
+    },
+    {
+      "label": "[MM] DEPARTMENT OF MANAGEMENT AND MARKETING",
+      "value": "38",
+      "count": 100
+    },
+    {
+      "label": "[SN] SCHOOL OF NURSING",
+      "value": "26",
+      "count": 115
+    },
+    {
+      "label": "[SD] SCHOOL OF DESIGN",
+      "value": "19",
+      "count": 146
+    },
+    {
+      "label": "[SS1] INTERNATIONAL SUMMER SCHOOL",
+      "value": "106",
+      "count": 3
+    },
+    {
+      "label": "[SO] SCHOOL OF OPTOMETRY",
+      "value": "47",
+      "count": 30
+    },
+    {
+      "label": "[SFT] SCHOOL OF FASHION AND TEXTILES",
+      "value": "31",
+      "count": 198
+    },
+    {
+      "label": "[SHTM] SCHOOL OF HOTEL AND TOURISM MANAGEMENT",
+      "value": "22",
+      "count": 175
+    }
+  ],
+  "unique_ids": 3715,
+  "exported_mappings": 3715,
+  "failures": [],
+  "possibly_capped_departments": [],
+  "complete_for_returned_departments": true,
+  "limitations": [
+    "Covers departments exposed by the public subject-search dropdown for the requested term.",
+    "Records include programme versions; not proof that each programme currently admits students.",
+    "No guarantee of all historical programmes, other PolyU institutions or future offerings."
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "acad_year_sem": "20261",
+  "department_count": 45,
+  "unique_ids": 2546,
+  "unique_codes": 2546,
+  "counts": [
+    {
+      "label": "[AIH] DIVISION OF ARTIFICIAL INTELLIGENCE AND THE HUMANITIES",
+      "value": "162",
+      "count": 6
+    },
+    {
+      "label": "[AAE] DEPARTMENT OF AERONAUTICAL AND AVIATION ENGINEERING",
+      "value": "109",
+      "count": 55
+    },
+    {
+      "label": "[ARCH] DEPARTMENT OF ARCHITECTURE",
+      "value": "161",
+      "count": 0
+    },
+    {
+      "label": "[AMA] DEPARTMENT OF APPLIED MATHEMATICS",
+      "value": "24",
+      "count": 78
+    },
+    {
+      "label": "[BEEE] DEPARTMENT OF BUILDING ENVIRONMENT AND ENERGY ENGINEERING",
+      "value": "20",
+      "count": 49
+    },
+    {
+      "label": "[BEST] DEPARTMENT OF BIOMEDICAL ENGINEERING AND SPORTS TECHNOLOGY",
+      "value": "61",
+      "count": 52
+    },
+    {
+      "label": "[CEE] DEPARTMENT OF CIVIL AND ENVIRONMENTAL ENGINEERING",
+      "value": "41",
+      "count": 77
+    },
+    {
+      "label": "[AF] SCHOOL OF ACCOUNTING AND FINANCE",
+      "value": "35",
+      "count": 128
+    },
+    {
+      "label": "[CHEM] DEPARTMENT OF CHEMISTRY",
+      "value": "163",
+      "count": 45
+    },
+    {
+      "label": "[APSS] DEPARTMENT OF APPLIED SOCIAL SCIENCES",
+      "value": "46",
+      "count": 128
+    },
+    {
+      "label": "[CHC] DEPARTMENT OF CHINESE HISTORY AND CULTURE",
+      "value": "44",
+      "count": 62
+    },
+    {
+      "label": "[CLC] CHINESE LANGUAGE CENTRE",
+      "value": "110",
+      "count": 18
+    },
+    {
+      "label": "[CUS] COLLEGE OF UNDERGRADUATE STUDIES",
+      "value": "81",
+      "count": 7
+    },
+    {
+      "label": "[CMI] DEPARTMENT OF CONSTRUCTION MANAGEMENT AND INTELLIGENCE",
+      "value": "53",
+      "count": 54
+    },
+    {
+      "label": "[DSAI] DEPARTMENT OF DATA SCIENCE AND ARTIFICIAL INTELLIGENCE",
+      "value": "154",
+      "count": 33
+    },
+    {
+      "label": "[ELC] ENGLISH LANGUAGE CENTRE",
+      "value": "34",
+      "count": 26
+    },
+    {
+      "label": "[ENGL] DEPARTMENT OF ENGLISH AND COMMUNICATION",
+      "value": "18",
+      "count": 61
+    },
+    {
+      "label": "[COMP] DEPARTMENT OF COMPUTING",
+      "value": "48",
+      "count": 76
+    },
+    {
+      "label": "[FB] FACULTY OF BUSINESS",
+      "value": "1",
+      "count": 4
+    },
+    {
+      "label": "[FCE] FACULTY OF CONSTRUCTION AND ENVIRONMENT",
+      "value": "2",
+      "count": 6
+    },
+    {
+      "label": "[EEE] DEPARTMENT OF ELECTRICAL AND ELECTRONIC ENGINEERING",
+      "value": "152",
+      "count": 146
+    },
+    {
+      "label": "[FCMS] FACULTY OF COMPUTER AND MATHEMATICAL SCIENCES",
+      "value": "155",
+      "count": 3
+    },
+    {
+      "label": "[FH] FACULTY OF HUMANITIES",
+      "value": "9",
+      "count": 22
+    },
+    {
+      "label": "[FHSS] FACULTY OF HEALTH AND SOCIAL SCIENCES",
+      "value": "12",
+      "count": 11
+    },
+    {
+      "label": "[FENG] FACULTY OF ENGINEERING",
+      "value": "15",
+      "count": 8
+    },
+    {
+      "label": "[FS] FACULTY OF SCIENCE",
+      "value": "14",
+      "count": 2
+    },
+    {
+      "label": "[IC] INDUSTRIAL CENTRE",
+      "value": "33",
+      "count": 0
+    },
+    {
+      "label": "[GS] GRADUATE SCHOOL",
+      "value": "3",
+      "count": 8
+    },
+    {
+      "label": "[FSN] DEPARTMENT OF FOOD SCIENCE AND NUTRITION",
+      "value": "151",
+      "count": 55
+    },
+    {
+      "label": "[LEI] LANGUAGE EDUCATION INSTITUTE",
+      "value": "157",
+      "count": 3
+    },
+    {
+      "label": "[ISE] DEPARTMENT OF INDUSTRIAL AND SYSTEMS ENGINEERING",
+      "value": "39",
+      "count": 80
+    },
+    {
+      "label": "[HTI] DEPARTMENT OF HEALTH TECHNOLOGY AND INFORMATICS",
+      "value": "27",
+      "count": 106
+    },
+    {
+      "label": "[LS] DEPARTMENT OF LIFE SCIENCES",
+      "value": "164",
+      "count": 35
+    },
+    {
+      "label": "[LMS] DEPARTMENT OF LOGISTICS AND MARITIME STUDIES",
+      "value": "32",
+      "count": 104
+    },
+    {
+      "label": "[LSGS] DEPARTMENT OF LAND SURVEYING AND GEOSPATIAL SCIENCE",
+      "value": "28",
+      "count": 53
+    },
+    {
+      "label": "[LST] DEPARTMENT OF LANGUAGE SCIENCE AND TECHNOLOGY",
+      "value": "21",
+      "count": 133
+    },
+    {
+      "label": "[ME] DEPARTMENT OF MECHANICAL ENGINEERING",
+      "value": "37",
+      "count": 56
+    },
+    {
+      "label": "[PM] DEPARTMENT OF PHYSICS AND MATERIALS",
+      "value": "29",
+      "count": 33
+    },
+    {
+      "label": "[RS] DEPARTMENT OF REHABILITATION SCIENCES",
+      "value": "25",
+      "count": 101
+    },
+    {
+      "label": "[SD] SCHOOL OF DESIGN",
+      "value": "19",
+      "count": 132
+    },
+    {
+      "label": "[SFT] SCHOOL OF FASHION AND TEXTILES",
+      "value": "31",
+      "count": 113
+    },
+    {
+      "label": "[MM] DEPARTMENT OF MANAGEMENT AND MARKETING",
+      "value": "38",
+      "count": 123
+    },
+    {
+      "label": "[SN] SCHOOL OF NURSING",
+      "value": "26",
+      "count": 78
+    },
+    {
+      "label": "[SO] SCHOOL OF OPTOMETRY",
+      "value": "47",
+      "count": 45
+    },
+    {
+      "label": "[SHTM] SCHOOL OF HOTEL AND TOURISM MANAGEMENT",
+      "value": "22",
+      "count": 131
+    }
+  ],
+  "failures": [],
+  "possibly_capped_departments": [],
+  "complete_for_returned_departments": true,
+  "source_url": "https://estudent.polyu.edu.hk/proxy/e-public/srs-api/student-portal/public/subjects/search",
+  "retrieved_at": "2026-11-22T19:30:17.037862+00:00"
+}

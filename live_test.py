@@ -3,12 +3,13 @@ import json
 import os
 import sys
 from http.client import IncompleteRead
-from pathlib import Path
+from config import read_env, unquote
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from agents import answer, collect_evidence, verify
+from model_errors import ModelRequestError
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -17,15 +18,9 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 def load_model():
-    path = Path(__file__).with_name(".env")
-    settings = {}
-    if path.is_file():
-        for line in path.read_text(encoding="utf-8").splitlines():
-            name, sep, value = line.partition("=")
-            if sep and not name.lstrip().startswith("#"):
-                settings[name.strip()] = value.strip()
+    settings = read_env()
     names = ("LLM_ENDPOINT", "LLM_MODEL", "LLM_API_KEY")
-    endpoint, model_name, key = (os.environ.get(name, settings.get(name, "")) for name in names)
+    endpoint, model_name, key = (unquote(os.environ.get(name, settings.get(name, ""))) for name in names)
     if not all((endpoint, model_name, key)):
         raise SystemExit("Set LLM_ENDPOINT, LLM_MODEL and LLM_API_KEY in your local .env first.")
     url = urlsplit(endpoint)
@@ -51,7 +46,7 @@ def load_model():
             if not isinstance(parsed, dict):
                 raise ValueError("Expected JSON object")
         except HTTPError as exc:
-            raise RuntimeError(f"Model request failed (HTTP {exc.code}). Check endpoint, model and credentials.") from None
+            raise ModelRequestError(exc.code) from None
         except (URLError, TimeoutError, ValueError, KeyError, IndexError, TypeError):
             raise RuntimeError("Model request failed or response was not a JSON object.") from None
         usage = result.get("usage") or {}

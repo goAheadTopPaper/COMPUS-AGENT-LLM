@@ -26,7 +26,7 @@ ScheduleAgent.search() 返回状态字典，`results` 为兼容原 Answerer 的�
 
 2026-11-22 公开接口实测：课程列表用 `subjCode` / `subjectTitles` / `subjCredit`，返回包在 `value`；批量上课安排请求必须使用 `queries: [query]`（对象格式返回 400），返回 `value: [[arrangement, ...]]`。Schedule 默认采用实测格式，`queries_as_list=False` 仅作其他版本兼容。原始 interface.md 保持原样。
 
-Schedule 的范围为课程信息与上课安排，不查询考试安排或个人 Canvas 课表。教学周未知时返回全部周次并注明；相同安排的分组去重，不同安排和课程组成部分保留。未知返回结构会报错，不会被误认为“无课”。
+Schedule 的范围为课程信息与上课安排，不查询考试安排或个人 Canvas 课表。`SEMESTER_START` 默认留空，由 UTC+8 当前日期与 `academic_calendar.json` 官方校历快照自动计算周次，2026/27 已覆盖，含春节停课周。显式 week 优先于手动起点，手动起点优先于校历；非教学期或校历未覆盖时保留全部周次并注明。query_scope 保留 week、teaching_status 及自动计算时的校历来源。相同安排的分组去重，不同安排和课程组成部分保留。未知返回结构会报错，不会被误认为“无课”。
 
 适用 Python 3.10+。联调入口为三个普通 Python 函数。各模块可以用自己的 Agent 框架，跨模块交接统一使用可 JSON 序列化的字典和列表。同步 Supervisor 直接调用，异步 Supervisor 可在线程中调用同步模型适配器。
 

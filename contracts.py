@@ -155,6 +155,9 @@ class FinalAnswer:
     usage: Usage = field(default_factory=Usage)
     plan: TaskPlan | None = None
     clarify_question: str = ""
+    programme: str = ""             # 用户自述项目，可由前端在后续查询复用
+    clarification_options: list[dict] = field(default_factory=list)
+    continuation: dict = field(default_factory=dict)
 
     def citation_index(self) -> dict[str, tuple[int, Evidence]]:
         """把 evidence 映射成 [1] -> (1, Evidence)，前端渲染引用卡片用。"""
@@ -169,6 +172,9 @@ class FinalAnswer:
             "trace": [t.to_dict() for t in self.trace],
             "usage": asdict(self.usage),
             "clarify_question": self.clarify_question,
+            "programme": self.programme,
+            "clarification_options": self.clarification_options,
+            "continuation": self.continuation,
         }
 
 
