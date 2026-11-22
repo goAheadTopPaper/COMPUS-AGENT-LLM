@@ -71,7 +71,13 @@ st.markdown("""
 
 
 def _pick_engine():
-    """优先级：真实 LangGraph pipeline > 真实检索（demo）> mock。"""
+    """优先级：真实 pipeline（DeepSeek）> 其他 pipeline > 真实检索 > mock。"""
+    try:
+        from app import pipeline_engine
+        if pipeline_engine.HAS_PIPELINE:
+            return pipeline_engine, "pipeline"
+    except Exception:  # noqa: BLE001
+        pass
     try:
         from app import real_engine
         if real_engine.HAS_REAL:
@@ -90,10 +96,14 @@ def _pick_engine():
 
 engine, mode = _pick_engine()
 
+# 支持 ?q=...&anim=0 直接出结果：录屏与截图时不用手动点按钮
+_qp = st.query_params.get("q")
+_noanim = st.query_params.get("anim") == "0"
+
 # ---------------------------------------------------------------- 侧栏
 with st.sidebar:
     st.markdown("### 学生画像")
-    if mode in ("mock", "demo"):
+    if mode in ("mock", "demo", "pipeline"):
         from app.mock_engine import STUDENTS
     else:
         STUDENTS = {}  # 真实模式下由 pipeline 自己的数据源提供
@@ -108,7 +118,7 @@ with st.sidebar:
 
     st.divider()
     st.markdown("### 演示设置")
-    animate = st.toggle("逐条播放 trace", value=True)
+    animate = st.toggle("逐条播放 trace", value=not _noanim)
     speed = st.slider("播放速度", 0.0, 0.5, 0.16, 0.02, disabled=not animate)
 
     st.divider()
@@ -117,6 +127,8 @@ with st.sidebar:
         st.warning("MOCK 数据\n\n答案内容为编造样例，非真实校方信息。", icon=None)
     elif mode == "demo":
         st.info("真实检索\n\n证据来自 Part 1 索引；答案为提取式拼装，未做生成改写。")
+    elif mode == "pipeline":
+        st.success("真实 pipeline\n\nSupervisor 调度 · DeepSeek 生成 · Verifier 校验")
     else:
         st.success("真实 pipeline 已接入")
 
@@ -131,9 +143,9 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 DEMO_DEFAULT = [
-    "我下学期能不能选 COMP5584？",
-    "我这学期考试是什么时候？",
-    "COMP9999 的给分比例是多少？",
+    "Can I retake a subject I have already passed to improve my grade?",
+    "How do I book an appointment for counselling?",
+    "What are the subject withdrawal rules in 2020/21?",
 ]
 cols = st.columns(len(DEMO_DEFAULT) + 2)
 clicked = None
@@ -149,6 +161,10 @@ with st.form("ask", clear_on_submit=False):
 
 if clicked:
     query, submitted = clicked, True
+
+if _qp and st.session_state.get("_qp_used") != _qp:
+    st.session_state["_qp_used"] = _qp
+    query, submitted = _qp, True
 
 # ---------------------------------------------------------------- 渲染
 def render_trace(ans: FinalAnswer, animate: bool, delay: float):
@@ -225,7 +241,8 @@ else:
         render_trace(ans, animate and len(st.session_state.history) == 1, speed)
 
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("端到端延迟", f"{ans.usage.latency_ms / 1000:.1f} s")
+    lat = ans.usage.latency_ms
+    m1.metric("端到端延迟", f"{lat / 1000:.1f} s" if lat >= 1000 else f"{lat} ms")
     m2.metric("agent 调用", ans.usage.agent_calls)
-    m3.metric("token", f"{ans.usage.tokens:,}")
-    m4.metric("估算成本", f"${ans.usage.cost_usd:.3f}")
+    m3.metric("token", f"{ans.usage.tokens:,}" if ans.usage.tokens else "—")
+    m4.metric("估算成本", f"${ans.usage.cost_usd:.3f}" if ans.usage.cost_usd else "—")
