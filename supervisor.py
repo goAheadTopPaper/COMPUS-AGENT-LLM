@@ -81,6 +81,8 @@ def _decision(report, states, attempts, notices):
         "unanswered": report.get("unanswered", []),
         "clarification_flags": report.get("clarification_flags", []),
     }
+    if report.get("provenance"):
+        result["provenance"] = report["provenance"]
     if status == "passed" and result["approved"]:
         result["answer"] = report["answer"]
         result["sources"] = report["sources"]
