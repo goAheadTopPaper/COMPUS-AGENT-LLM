@@ -1,6 +1,7 @@
 """Run three real-model checks with python3 -B live_test.py."""
 import json
 import os
+import sys
 from http.client import IncompleteRead
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -50,12 +51,12 @@ def load_model():
             if not isinstance(parsed, dict):
                 raise ValueError("Expected JSON object")
         except HTTPError as exc:
-            raise SystemExit(f"Model request failed (HTTP {exc.code}). Check endpoint, model and credentials.") from None
+            raise RuntimeError(f"Model request failed (HTTP {exc.code}). Check endpoint, model and credentials.") from None
         except (URLError, TimeoutError, ValueError, KeyError, IndexError, TypeError):
-            raise SystemExit("Model request failed or response was not a JSON object.") from None
+            raise RuntimeError("Model request failed or response was not a JSON object.") from None
         usage = result.get("usage") or {}
         print("Tokens:", {name: usage[name] for name in
-                          ("prompt_tokens", "completion_tokens", "total_tokens") if name in usage})
+                          ("prompt_tokens", "completion_tokens", "total_tokens") if name in usage}, file=sys.stderr)
         return parsed
 
     return model
@@ -64,13 +65,13 @@ def load_model():
 def main():
     model = load_model()
     evidence = collect_evidence(schedule=[
-        {"evidence_id": "schedule:test-1", "text": "COMP5926 exam starts at 14:00.",
-         "citation": {"title": "Synthetic exam schedule"}}])
-    question = "What time does the COMP5926 exam start?"
+        {"evidence_id": "schedule:test-1", "text": "COMP5926 class starts at 14:00.",
+         "citation": {"title": "Synthetic class schedule"}}])
+    question = "What time does the COMP5926 class start?"
     draft = answer(question, evidence, model)
     normal = verify(question, evidence, draft, model)
-    wrong = {"claims": [{"text": "The COMP5926 exam starts at 15:00.", "supports": [
-        {"evidence_id": "schedule:test-1", "quote": "COMP5926 exam starts at 14:00."}]}]}
+    wrong = {"claims": [{"text": "The COMP5926 class starts at 15:00.", "supports": [
+        {"evidence_id": "schedule:test-1", "quote": "COMP5926 class starts at 14:00."}]}]}
     contradiction = verify(question, evidence, wrong, model)
     missing = verify(question + " What is the room?", evidence, draft, model)
     cases = {"normal": (normal, "passed"), "wrong_time": (contradiction, "rejected"),

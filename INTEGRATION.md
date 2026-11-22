@@ -1,5 +1,33 @@
 # COMP5584 Agent 联调约定
 
+## 已实现的调度入口
+
+```python
+from policy_agent import PolicyAgent
+from schedule_agent import ScheduleAgent
+from supervisor import SupervisorAgent
+
+supervisor = SupervisorAgent(
+    model,  # model(system, payload) -> parsed JSON dict
+    policy_agent=PolicyAgent(r"D:\LLM-AGENT\part1_handoff"),
+    schedule_agent=ScheduleAgent(),  # 默认读取 programmes.json 中维护的项目映射
+)
+report = supervisor.run("查询 COMP5584 的课程信息和上课地点", context={
+    "programme": user_programme_name,  # 当前/之前由用户说明的项目，非根据课程推断
+    "acad_year": "2026", "semester": "1", "week": 12,
+})
+```
+
+Supervisor 的 `run()` 保留完整原问题，调用模型选择 policy/schedule 分支，并从用户自述中提取所属项目原文（附原文片段核对）。也可显式传入 `branches=["schedule"]`、`course_queries=["COMP5584"]`。context 中课程用 `programme`（用户已说明的名称/别名/代码）、`acad_year`、`semester`、`on_date`、`semester_start`、`week`；规章用 `programme_code`、`academic_year`（2026/27）、`admission_cohort` 及 Part 1 支持的其他过滤字段。
+
+项目映射由 `ProgrammeResolver` 读取 `programmes.json`，每条需 name、programme_id，可选 aliases、programme_code。当前没有可靠内部 ID 对照，文件为空，需维护者补充映射或项目列表接口。不能把公开项目代码当内部 ID，也不能根据课程或模型知识猜 ID。未说明项目时追问“你就读哪个项目”；项目有歧义时要求全称/代码；缺映射时返回 `configuration_required`，不调用课程 API、不重试。调用方通过 context 复用之前用户说明的项目，当前自述优先。直接传 `programme_id` 仅保留为维护者/API 集成的显式低层覆盖；不再从环境设置全局 ID。有项目名称时必须通过其映射解析，避免套用旧项目 ID。
+
+ScheduleAgent.search() 返回状态字典，`results` 为兼容原 Answerer 的证据列表；缺参返回 `clarification_required` + `missing`。Supervisor 对已请求分支失败保留状态，最多重试一次；全部检索成功后才调用 Answerer/Verifier。未匹配课程不能被模型忽略后批准，未经批准的草稿不返回给用户。
+
+2026-11-22 公开接口实测：课程列表用 `subjCode` / `subjectTitles` / `subjCredit`，返回包在 `value`；批量上课安排请求必须使用 `queries: [query]`（对象格式返回 400），返回 `value: [[arrangement, ...]]`。Schedule 默认采用实测格式，`queries_as_list=False` 仅作其他版本兼容。原始 interface.md 保持原样。
+
+Schedule 的范围为课程信息与上课安排，不查询考试安排或个人 Canvas 课表。教学周未知时返回全部周次并注明；相同安排的分组去重，不同安排和课程组成部分保留。未知返回结构会报错，不会被误认为“无课”。
+
 适用 Python 3.10+。联调入口为三个普通 Python 函数。各模块可以用自己的 Agent 框架，跨模块交接统一使用可 JSON 序列化的字典和列表。同步 Supervisor 直接调用，异步 Supervisor 可在线程中调用同步模型适配器。
 
 ## 交付一：负责 Planner、Supervisor 或 Policy 的同学
@@ -16,7 +44,7 @@
 [
   {
     "evidence_id": "schedule:mock-event-1",
-    "text": "COMP5926 exam: 2026-11-23 14:00 Asia/Hong_Kong; room A101.",
+    "text": "COMP5926 class: 2026-11-23 14:00 Asia/Hong_Kong; room A101.",
     "citation": {"title": "Mock schedule"},
     "course_code": "COMP5926",
     "start_at": "2026-11-23T14:00:00+08:00",

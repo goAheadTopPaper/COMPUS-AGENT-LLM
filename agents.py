@@ -78,7 +78,8 @@ def verify(question, bundle, draft, model, policy_gate=None):
     provenance = "supplied_evidence"
     if not errors and policy_claims and policy_gate:
         try:
-            report = policy_gate({"claims": policy_claims, "retrieved_evidence_ids": list(evidence)})
+            report = policy_gate({"claims": policy_claims, "retrieved_evidence_ids": list(evidence),
+                                  **bundle.get("verification_scope", {})})
             if report["status"] != "pending_semantic_review":
                 errors.extend(error for item in report["claims"] for error in item["errors"])
                 if not errors:

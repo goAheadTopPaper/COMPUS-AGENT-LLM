@@ -22,33 +22,33 @@ def main():
         policy = PolicyRetriever().search("What is the prerequisite for COMP5926?", method="bm25")
     key = next(row["evidence_id"] for row in policy["results"] if quote in row["text"])
     bundle = collect_evidence(policy, [
-        {"evidence_id": "schedule:example", "text": "COMP5926 exam: 14:00",
+        {"evidence_id": "schedule:example", "text": "COMP5926 class: 14:00",
          "citation": {"title": "Mock schedule"}}
     ])
-    question = "What is the prerequisite for COMP5926 and when is its exam?"
+    question = "What is the prerequisite for COMP5926 and when is its class?"
 
     def draft_model(system, payload):
         return {"claims": [
             {"text": fact, "supports": [{"evidence_id": key, "quote": quote}]},
-            {"text": "The exam is at 14:00.", "supports": [
-                {"evidence_id": "schedule:example", "quote": "COMP5926 exam: 14:00"}]}
+            {"text": "The class is at 14:00.", "supports": [
+                {"evidence_id": "schedule:example", "quote": "COMP5926 class: 14:00"}]}
         ]}
 
     def review_model(system, payload):
         return {"checks": [
             {"index": i, "status": "contradicted" if "15:00" in c["text"] else "supported",
-             "reason": "Fixture verdict for the exam time and prerequisite."}
+             "reason": "Fixture verdict for the class time and prerequisite."}
             for i, c in enumerate(payload["claims"])],
-            "unanswered": ["exam location"] if "location" in payload["question"] else [],
+            "unanswered": ["class location"] if "location" in payload["question"] else [],
             "needs_clarification": False}
 
     draft = answer(question, bundle, draft_model)
     passed = verify(question, bundle, draft, review_model, gate)
     assert passed["approved"], passed
     assert verify(question + " And the location?", bundle, draft, review_model, gate)["status"] == "insufficient_evidence"
-    draft["claims"][1]["text"] = "The exam is at 15:00."
+    draft["claims"][1]["text"] = "The class is at 15:00."
     assert verify(question, bundle, draft, review_model, gate)["status"] == "rejected"
-    draft["claims"][1]["supports"][0]["quote"] = "COMP5926 exam: 15:00"
+    draft["claims"][1]["supports"][0]["quote"] = "COMP5926 class: 15:00"
     assert verify(question, bundle, draft, review_model, gate)["status"] == "rejected"
     empty = collect_evidence({"status": "no_year_specific_evidence", "results": []})
     assert verify(question, empty, answer(question, empty, draft_model), review_model)["status"] == "insufficient_evidence"
