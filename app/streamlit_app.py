@@ -143,8 +143,8 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 DEMO_DEFAULT = [
-    "Can I retake a subject I have already passed to improve my grade?",
-    "How do I book an appointment for counselling?",
+    "What should I do if illness prevents me from attending an examination in 2026/27?",
+    "What GPA triggers academic probation in 2026/27?",
     "What are the subject withdrawal rules in 2020/21?",
 ]
 cols = st.columns(len(DEMO_DEFAULT) + 2)
