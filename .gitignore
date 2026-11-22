@@ -1,3 +1,12 @@
 .env
 __pycache__/
 *.pyc
+
+# part1 数据（体积大，不入库；每人本地放置）
+data/
+files/
+.env
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
