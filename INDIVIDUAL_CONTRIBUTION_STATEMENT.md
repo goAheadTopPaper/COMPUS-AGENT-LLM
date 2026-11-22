@@ -2,11 +2,11 @@
 
 Course: COMP5584  
 Project: Multi-Agent Campus Information Assistant  
-Group ID: [To be completed by the group]
+Group ID: \[To be completed by the group]
 
 Each member should add a separate section with their full name, student ID, responsibilities, completed work, and how their component connects with other members' work. Confirm that each description matches the final submitted version. Replace the remaining placeholders before submission.
 
-## Cheung Kwan Kit — 26007063G
+### Cheung Kwan Kit — 26007063G
 
 GitHub username: cheungkk704  
 Responsibility: Policy RAG, source preparation, and evidence retrieval
@@ -21,7 +21,8 @@ As the RAG component provided evidence retrieval needed for downstream integrati
 
 ## Additional member — replace with full name and student ID
 
-GitHub username: [Optional]  
-Responsibility: [Module or component]
+GitHub username: \[Optional]  
+Responsibility: \[Module or component]
 
-[Describe your completed work and deliverables. Explain how your component interacts with or supports other members' modules. Duplicate this section for each remaining member.]
+\[Describe your completed work and deliverables. Explain how your component interacts with or supports other members' modules. Duplicate this section for each remaining member.]
+
