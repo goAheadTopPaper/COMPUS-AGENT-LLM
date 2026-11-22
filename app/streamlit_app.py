@@ -54,6 +54,11 @@ KIND_LABEL = {
 st.markdown("""
 <style>
   .block-container {padding-top: 2.2rem; padding-bottom: 2rem; max-width: 1480px;}
+  /* 录屏时不需要 Streamlit 自带的工具栏与 Deploy 按钮 */
+  [data-testid="stToolbar"] {display: none;}
+  [data-testid="stDecoration"] {display: none;}
+  [data-testid="stStatusWidget"] {display: none;}
+  #MainMenu {visibility: hidden;}
   .panel {border: 1px solid rgba(255,255,255,0.10); border-radius: 12px;
           padding: 14px 16px; margin-bottom: 10px;}
   .cite {color: #85B7EB; font-size: 11px; font-weight: 500;}
@@ -113,13 +118,13 @@ with st.sidebar:
         stu = STUDENTS[sid]
         st.caption(f"{stu.programme}｜Year {stu.year}｜GPA {stu.gpa}")
         st.caption(f"已修 {len(stu.completed)} 门：" + "、".join(stu.completed_codes))
+        st.caption("（示范用档案，未接入真实学籍系统）")
     else:
         stu = None
 
     st.divider()
     st.markdown("### 演示设置")
     animate = st.toggle("逐条播放 trace", value=not _noanim)
-    speed = st.slider("播放速度", 0.0, 0.5, 0.16, 0.02, disabled=not animate)
 
     st.divider()
     st.markdown("### 引擎状态")
@@ -132,12 +137,9 @@ with st.sidebar:
     else:
         st.success("真实 pipeline 已接入")
 
-    st.divider()
-    st.caption("角色分工：1 数据检索 / 2 编排 / 3 Policy / 4 Answer+Verifier / 5 前端+测试 / 6 交付物")
-
 # ---------------------------------------------------------------- 主区
 st.markdown("#### Multi-Agent University Information Assistant")
-st.caption("Supervisor 派发 · Policy / Schedule / Curriculum 并行检索 · Verifier 校验后输出")
+st.caption("Supervisor 派发 · Policy 检索 · Answerer 起草 · Verifier 核验后输出")
 
 if "history" not in st.session_state:
     st.session_state.history = []
@@ -147,16 +149,17 @@ DEMO_DEFAULT = [
     "What GPA triggers academic probation in 2026/27?",
     "What are the subject withdrawal rules in 2020/21?",
 ]
-cols = st.columns(len(DEMO_DEFAULT) + 2)
+
 clicked = None
-for i, q in enumerate(DEMO_DEFAULT):
-    if cols[i].button(q, use_container_width=True):
-        clicked = q
+st.caption("示例问题")
+for _q in DEMO_DEFAULT:
+    if st.button(_q, use_container_width=True, key=f"demo::{_q}"):
+        clicked = _q
 
 with st.form("ask", clear_on_submit=False):
     c1, c2 = st.columns([6, 1])
     query = c1.text_input("提问", value=clicked or "", label_visibility="collapsed",
-                          placeholder="例如：我下学期能不能选 COMP5584？")
+                          placeholder="Ask in English, e.g. Can I retake a subject to improve my grade?")
     submitted = c2.form_submit_button("提问", use_container_width=True)
 
 if clicked:
@@ -229,20 +232,22 @@ if submitted and query.strip() and stu is not None:
     st.session_state.history.insert(0, (query.strip(), ans))
 
 if not st.session_state.history:
-    st.info("在右上角输入问题，或点上面的示例问题开始。")
+    st.caption("点上面的示例问题，或在上方输入框提问。答案、证据链与 agent 调度记录会同时出现。")
 else:
     q, ans = st.session_state.history[0]
     st.divider()
     st.markdown(f"**问：{q}**")
-    left, right = st.columns([1.45, 1], gap="large")
-    with left:
-        render_answer(ans)
-    with right:
-        render_trace(ans, animate and len(st.session_state.history) == 1, speed)
 
+    # 指标放在结果区顶部：录屏时一屏就能看到，不必滚动到底部
     m1, m2, m3, m4 = st.columns(4)
     lat = ans.usage.latency_ms
     m1.metric("端到端延迟", f"{lat / 1000:.1f} s" if lat >= 1000 else f"{lat} ms")
     m2.metric("agent 调用", ans.usage.agent_calls)
     m3.metric("token", f"{ans.usage.tokens:,}" if ans.usage.tokens else "—")
     m4.metric("估算成本", f"${ans.usage.cost_usd:.3f}" if ans.usage.cost_usd else "—")
+
+    left, right = st.columns([1.45, 1], gap="large")
+    with left:
+        render_answer(ans)
+    with right:
+        render_trace(ans, animate and len(st.session_state.history) == 1, 0.16)
