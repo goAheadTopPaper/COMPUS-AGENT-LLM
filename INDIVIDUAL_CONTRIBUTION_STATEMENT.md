@@ -47,3 +47,15 @@ For the Supervisor Agent, I implemented question routing, task dispatch, evidenc
 I also addressed several integration challenges. These included inconsistent configuration parsing, incompatible module interfaces, course-name matching, and differences between documented and actual API responses. I implemented programme-name normalization and fuzzy matching, as well as catalogue-grounded semantic matching for Chinese course nicknames and abbreviations. Furthermore, I enabled university-wide course searches without requiring users to specify their programme and added automatic teaching-week calculation using the official academic calendar.
 
 On the frontend, I connected the Streamlit interface to the agent pipeline and improved error reporting, citation display, and execution traces. I also added interactive clarification controls so users can select a course or provide supplementary information while retaining their original question. Finally, I conducted automated regression tests and real API and model checks to validate the integrated workflow.
+
+## JIAO RUIKANG — 26103438g
+
+GitHub username: J3rk
+
+**Responsibility:** User interface, shared agent contract, and evaluation
+
+I designed and implemented the Streamlit interface. Instead of a single chat window, it shows the answer beside a live agent trace, so delegation, retrieval, answer drafting, verification and retry appear as separate visible events, while refusal and clarification are explicit states rather than silent failures. Each claim links to an expandable evidence card giving the source title, PDF page, section and the original excerpt.
+
+I defined the data contract shared across the group (Evidence, TaskPlan, RunContext and the authority ranking used to resolve conflicting sources), and implemented the adapter from the Part 1 retriever to that contract. It preserves the evidence identifier, page, section and applicability warnings that the Verifier requires, and exposes adjacent passages for clauses that continue across pages.
+
+I built a 24-question benchmark covering policy, programme, subject and student-service queries, with a one-command runner reporting Recall@5 of 95% (19/20), a correct-refusal rate of 100% (3/3) and a median retrieval latency of 7 ms. Testing also surfaced several defects that only appear at integration time, including retrieval that returned nothing for Chinese queries, a semantic backend that fell back to empty results without raising an error, and a provenance gate that rejected all answers when original source files were absent. I recorded and produced the demo video. The interface was later extended by Xu Jingxiang with interactive clarification controls and additional error reporting.
