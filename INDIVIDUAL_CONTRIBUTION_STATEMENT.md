@@ -26,3 +26,14 @@ Responsibility: \[Module or component]
 
 \[Describe your completed work and deliverables. Explain how your component interacts with or supports other members' modules. Duplicate this section for each remaining member.]
 
+
+
+## FANG JUNNAN — 26056429g
+
+**Responsibility:** Answerer Agent, Verifier Agent, and module testing
+
+I developed the Answerer and Verifier modules for the Multi-Agent Campus Information Assistant. The Answerer combines evidence from the Policy and Schedule agents into a draft, linking each factual claim to an evidence ID and a supporting quotation. The Verifier checks that the cited quotations appear in the supplied evidence, then uses a separate model call to assess whether the evidence supports the claims and whether any part of the question remains unanswered.
+
+I documented the input and output formats and provided scripts for offline and live-model testing. I tested the policy evidence interface using a result from the group's Policy RAG module and its source-integrity checker. I also ran three tests with DeepSeek using simulated schedule data. The module approved a correct answer, rejected a draft with an incorrect exam time despite an accurate quotation, and flagged insufficient evidence when the exam venue was missing.
+
+The two modules are called by the Supervisor after evidence collection. They return a verified answer with citations when the draft passes, or a structured report that helps the Supervisor decide whether to revise the draft, retrieve more evidence, or ask the user for clarification.
