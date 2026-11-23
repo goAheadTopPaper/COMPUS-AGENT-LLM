@@ -19,15 +19,6 @@ My component supplies structured evidence to the group's Policy/Supervisor workf
 
 As the RAG component provided evidence retrieval needed for downstream integration, I completed and handed it over to my teammates early so they could proceed with their modules. My teammates subsequently uploaded my contribution to the shared GitHub repository on my behalf, so the repository's commit authorship does not directly reflect my authorship of this component.
 
-## Additional member — replace with full name and student ID
-
-GitHub username: \[Optional]  
-Responsibility: \[Module or component]
-
-\[Describe your completed work and deliverables. Explain how your component interacts with or supports other members' modules. Duplicate this section for each remaining member.]
-
-
-
 ## FANG JUNNAN — 26056429g
 
 **Responsibility:** Answerer Agent, Verifier Agent, and module testing
@@ -76,3 +67,12 @@ The Schedule branch needed a comparable contract, so `schedule_evidence.py` norm
 To confirm the components worked as one pipeline, I wrote the joint acceptance suite (`test_integration.py`, 7 tests), covering regulation-only, timetable-only, mixed queries requiring both citation types, insufficient evidence that must not expose the draft, a correct citation paired with a wrong time in the draft, and clarification-flag and verification-gate passthrough. Together with the module tests this is 58 automated tests, and the pipeline was verified under both the flat repository layout and the packaged `answer_verifier/` layout.
 
 My modules exchange plain JSON-serialisable dictionaries and lists, so they bind to the shared contract layer defined by Jiao Ruikang without changes on either side, and the Answerer and Verifier written by Fang Junnan are called unchanged. The Supervisor Agent, routing and live application path in the final version were implemented by Xu Jingxiang; my modules supply the callable execution API the pipeline check runs, the Policy adapter it uses, and the evidence format for the Schedule branch.
+
+## Lei Qingfan — 26124196g
+My main contributions to this project were preparing the presentation slides, delivering the oral presentation, and participating in the initial discussions about the multi-agent system.
+
+During the planning stage, I contributed to discussions about how to divide responsibilities among the agents and organize their interactions. I helped clarify the roles of the Supervisor, Policy, Schedule, Answerer, and Verifier agents, particularly how retrieved evidence should move through the system before a final answer is presented. These discussions helped establish a shared understanding of the proposed workflow and the scenarios our project aimed to support.
+
+For the presentation, I organized the team’s work into a clear narrative covering the problem, system architecture, implementation, demonstration, and limitations. I prepared slides that explained the agent workflow and illustrated how the frontend, retrieval components, and external APIs connect. I also coordinated with teammates to ensure that the slides accurately reflected the implemented features and testing results.
+
+In addition, I prepared and rehearsed the oral presentation, focusing on explaining the technical workflow in accessible language. I worked on transitions, timing, and alignment between the slides and demonstration. Through these contributions, I helped communicate the team’s technical work clearly and present the project as a coherent whole.
